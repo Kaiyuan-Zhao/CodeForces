@@ -1,0 +1,16 @@
+import java.util.*;
+
+/**
+ *
+ * @author Kaiyuan
+ */
+public class TheaterSquare {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        double n = sc.nextLong();
+        double m = sc.nextLong();
+        double a = sc.nextLong();
+        System.out.println((long)(Math.ceil(n/a) * Math.ceil(m/a)));	
+    }
+}
