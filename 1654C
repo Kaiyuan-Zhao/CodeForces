@@ -1,0 +1,103 @@
+import java.util.*;
+import java.io.*;
+
+/**
+ *
+ * @author Kaiyuan
+ */
+public class AliceAndTheCake {
+
+    public static void main(String[] args) {
+
+        Kattio io = new Kattio();
+        int t = io.nextInt();
+
+        for (int cases = 0; cases < t; cases++) {
+
+            int n = io.nextInt();
+            List<Long> nums = new LinkedList<>();
+            long sum = 0;
+            for (int i = 0; i < n; i++) {
+                long num = io.nextInt();
+                nums.add(num);
+                sum += num;
+            }
+            int cuts = n - 1;
+            Collections.sort(nums, Collections.reverseOrder());
+            PriorityQueue<Long> pieces = new PriorityQueue<>(Collections.reverseOrder());
+            pieces.add(sum);
+            // process
+            boolean yes = false;
+            for (int i = 0; !pieces.isEmpty() && !nums.isEmpty(); i++) {
+                if (pieces.peek() > nums.get(0)) {
+                    long p = pieces.poll();
+                    long p1 = (p + 1) / 2;
+                    long p2 = p / 2;
+                    pieces.add(p2);
+                    pieces.add(p1);
+                } else if (Objects.equals(pieces.peek(), nums.get(0))) {
+                    pieces.poll();
+                    nums.remove(0);
+                } else {
+                    System.out.println("NO");
+                    yes = true;
+                    break;
+                }
+
+            }
+            if (!yes) {
+                if (((pieces.isEmpty() && nums.isEmpty()) || cuts == 0)) {
+                    System.out.println("YES");
+                } else {
+                    System.out.println("NO");
+                }
+            }
+        }
+    }
+
+    static class Kattio extends PrintWriter {
+
+        private BufferedReader r;
+        private StringTokenizer st;
+        // standard input
+
+        public Kattio() {
+            this(System.in, System.out);
+        }
+
+        public Kattio(InputStream i, OutputStream o) {
+            super(o);
+            r = new BufferedReader(new InputStreamReader(i));
+        }
+        // USACO-style file input
+
+        public Kattio(String problemName) throws IOException {
+            super(problemName + ".out");
+            r = new BufferedReader(new FileReader(problemName + ".in"));
+        }
+        // returns null if no more input
+
+        public String next() {
+            try {
+                while (st == null || !st.hasMoreTokens()) {
+                    st = new StringTokenizer(r.readLine());
+                }
+                return st.nextToken();
+            } catch (Exception e) {
+            }
+            return null;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+    }
+}
