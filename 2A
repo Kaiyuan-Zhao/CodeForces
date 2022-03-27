@@ -1,0 +1,110 @@
+import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.StringTokenizer;
+
+/**
+ *
+ * @author Kaiyuan
+ */
+public class Winner {
+
+    public static void main(String[] args) {
+        Kattio io = new Kattio();
+        int n = io.nextInt();
+        ArrayList<String> players = new ArrayList<>();
+        int m = 0;
+        ArrayList<Integer> winners = new ArrayList<>();
+        int[] points = new int[1000];
+        String[] na = new String[n];
+        int[] po = new int[n];
+        for (int i = 0; i < n; i++) {
+            String name = io.next();
+            na[i] = name;
+            int point = io.nextInt();
+            po[i] = point;
+            int index = players.indexOf(name);
+            if (index == -1) {
+                players.add(name);
+                index = players.size() - 1;
+
+            }
+            points[index] += point;
+
+        }
+        for (int i = 0; i < 1000; i++) {
+            m = Math.max(m, points[i]);
+        }
+        int[] points2 = new int[1000];
+        for (int i = 0; i < n; i++) {
+            String name = na[i];
+            int point = po[i];
+            int index = players.indexOf(name);
+            if (index == -1) {
+                players.add(name);
+                index = players.size() - 1;
+
+            }
+            points2[index] += point;
+            if (points2[index] >= m && points[index] == m) {
+                io.println(name);
+                io.close();
+                System.exit(0);
+            }
+
+        }
+        io.println("uh oh something is wrong");
+        io.close();
+    }
+
+    static class Kattio extends PrintWriter {
+
+        private BufferedReader r;
+        private StringTokenizer st;
+        // standard input
+
+        public Kattio() {
+            this(System.in, System.out);
+        }
+
+        public Kattio(InputStream i, OutputStream o) {
+            super(o);
+            r = new BufferedReader(new InputStreamReader(i));
+        }
+        // USACO-style file input
+
+        public Kattio(String problemName) throws IOException {
+            super(problemName + ".out");
+            r = new BufferedReader(new FileReader(problemName + ".in"));
+        }
+        // returns null if no more input
+
+        public String next() {
+            try {
+                while (st == null || !st.hasMoreTokens()) {
+                    st = new StringTokenizer(r.readLine());
+                }
+                return st.nextToken();
+            } catch (Exception e) {
+            }
+            return null;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+    }
+}
