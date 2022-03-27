@@ -1,0 +1,104 @@
+import java.io.*;
+import java.util.*;
+
+/**
+ *
+ * @author Kaiyuan
+ */
+public class WeightOfTheSystemOfNestedSegments {
+
+    static class Pair implements Comparable<Pair> {
+
+        int index, value;
+
+        Pair(int index, int value) {
+            this.index = index;
+            this.value = value;
+        }
+
+        public int compareTo(Pair e) {
+            return this.value - e.value;
+        }
+    }
+
+    public static void main(String[] args) {
+        Kattio io = new Kattio();
+        int t = io.nextInt();
+        for (int test = 0; test < t; test++) {
+
+            int n = io.nextInt();
+            int m = io.nextInt();
+            int[] x = new int[m];
+            Pair[] w = new Pair[m];
+            for (int i = 0; i < m; i++) {
+                x[i] = io.nextInt();
+                w[i] = new Pair(i, io.nextInt());
+            }
+
+            //
+            Arrays.sort(w);
+            int sum = 0;
+            Pair[] smallest = new Pair[2 * n];
+            Deque<Pair> xPos = new LinkedList<>();
+            for (int i = 0; i < 2 * n; i++) {
+                sum += w[i].value;
+                smallest[i] = new Pair(w[i].index+1, x[w[i].index]);
+            }
+            Arrays.sort(smallest);
+            for (int i = 0; i < 2 * n; i++) {
+                xPos.add(smallest[i]);
+            }
+            System.out.println(sum);
+            while (!xPos.isEmpty()) {
+                System.out.println(xPos.removeFirst().index + " " + xPos.removeLast().index);
+            }
+
+        }
+    }
+
+    static class Kattio extends PrintWriter {
+
+        private BufferedReader r;
+        private StringTokenizer st;
+        // standard input
+
+        public Kattio() {
+            this(System.in, System.out);
+        }
+
+        public Kattio(InputStream i, OutputStream o) {
+            super(o);
+            r = new BufferedReader(new InputStreamReader(i));
+        }
+        // USACO-style file input
+
+        public Kattio(String problemName) throws IOException {
+            super(problemName + ".out");
+            r = new BufferedReader(new FileReader(problemName + ".in"));
+        }
+        // returns null if no more input
+
+        public String next() {
+            try {
+                while (st == null || !st.hasMoreTokens()) {
+                    st = new StringTokenizer(r.readLine());
+                }
+                return st.nextToken();
+            } catch (Exception e) {
+            }
+            return null;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+    }
+}
