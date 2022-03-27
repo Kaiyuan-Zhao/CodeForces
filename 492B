@@ -1,0 +1,78 @@
+import java.util.*;
+import java.io.*;
+
+/**
+ *
+ * @author Kaiyuan
+ */
+public class VanyaAndLanterns {
+
+    public static void main(String[] args) {
+        Kattio io = new Kattio();
+        int n = io.nextInt();
+        int l = io.nextInt();
+        int[] lamps = new int[n];
+        for (int i = 0; i < n; i++) {
+            lamps[i] = io.nextInt();
+        }
+        Arrays.sort(lamps);
+        double maxD = 0;
+
+        // process
+        for (int i = 0; i < n - 1; i++) {
+            maxD = Math.max(lamps[i + 1] - lamps[i], maxD);
+        }
+        double additional = Math.max(lamps[0], l - lamps[n - 1]);
+        //
+        
+        io.println(Math.max(maxD/2, additional));
+        io.close();
+    }
+
+    static class Kattio extends PrintWriter {
+
+        private BufferedReader r;
+        private StringTokenizer st;
+        // standard input
+
+        public Kattio() {
+            this(System.in, System.out);
+        }
+
+        public Kattio(InputStream i, OutputStream o) {
+            super(o);
+            r = new BufferedReader(new InputStreamReader(i));
+        }
+        // USACO-style file input
+
+        public Kattio(String problemName) throws IOException {
+            super(problemName + ".out");
+            r = new BufferedReader(new FileReader(problemName + ".in"));
+        }
+        // returns null if no more input
+
+        public String next() {
+            try {
+                while (st == null || !st.hasMoreTokens()) {
+                    st = new StringTokenizer(r.readLine());
+                }
+                return st.nextToken();
+            } catch (Exception e) {
+            }
+            return null;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+    }
+
+}
