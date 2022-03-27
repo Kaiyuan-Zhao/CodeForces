@@ -1,0 +1,108 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.*;
+
+/**
+ *
+ * @author Kaiyuan
+ */
+public class IntegersShop {
+
+    public static void main(String[] args) {
+        Kattio io = new Kattio();
+        int t = io.nextInt();
+        for (int a = 0; a < t; a++) {
+
+            int n = io.nextInt();
+            int high = 0;
+            int low = Integer.MAX_VALUE;
+            int cheapestLow = Integer.MAX_VALUE;
+            int cheapestHigh = Integer.MAX_VALUE;
+            int maxLen = 0;
+            int costMaxLen = Integer.MAX_VALUE;
+            for (int i = 0; i < n; i++) {
+                int l = io.nextInt();
+                int h = io.nextInt();
+                int p = io.nextInt();
+                if (l < low) {
+                    low = l;
+                    cheapestLow = p;
+                }
+                if (l == low) {
+                    cheapestLow = Math.min(cheapestLow, p);
+                }
+                if (h > high) {
+                    high = h;
+                    cheapestHigh = p;
+                }
+                if (h == high) {
+                    cheapestHigh = Math.min(cheapestHigh, p);
+                }
+                if (h - l + 1 > maxLen) {
+                    maxLen = h - l + 1;
+                    costMaxLen = p;
+                }
+                if(h-l+1== maxLen)
+                { costMaxLen = Math.min(costMaxLen, p);
+                }
+                int ans = cheapestLow + cheapestHigh;
+                if (maxLen == high - low + 1) {
+                    ans = Math.min(ans, costMaxLen);
+                }
+                System.out.println(ans);
+            }
+        }
+
+    }
+
+    static class Kattio extends PrintWriter {
+
+        private BufferedReader r;
+        private StringTokenizer st;
+        // standard input
+
+        public Kattio() {
+            this(System.in, System.out);
+        }
+
+        public Kattio(InputStream i, OutputStream o) {
+            super(o);
+            r = new BufferedReader(new InputStreamReader(i));
+        }
+        // USACO-style file input
+
+        public Kattio(String problemName) throws IOException {
+            super(problemName + ".out");
+            r = new BufferedReader(new FileReader(problemName + ".in"));
+        }
+        // returns null if no more input
+
+        public String next() {
+            try {
+                while (st == null || !st.hasMoreTokens()) {
+                    st = new StringTokenizer(r.readLine());
+                }
+                return st.nextToken();
+            } catch (Exception e) {
+            }
+            return null;
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public double nextDouble() {
+            return Double.parseDouble(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+    }
+}
